@@ -150,6 +150,32 @@
       }
     }
 
+    .texto-sol {
+  position: absolute;
+  bottom: 240px; /* Ajustado para estar encima del sol */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #fff8e1;
+  text-shadow: 0 0 10px #fff176, 0 0 20px #fff59d;
+  animation: brillar 3s ease-in-out infinite;
+  z-index: 3;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@keyframes brillar {
+  0%, 100% {
+    text-shadow: 0 0 10px #fff176, 0 0 20px #fff59d;
+    opacity: 1;
+  }
+  50% {
+    text-shadow: 0 0 15px #fff9c4, 0 0 30px #fffde7;
+    opacity: 0.8;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -162,6 +188,7 @@
 
 <!-- Pantalla de flores -->
 <div id="floresContainer">
+  <div class="texto-sol">Felice Retorno al sole, sole mio</div>
   <div class="sol"></div>
 </div>
 
