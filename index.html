@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flores para Ti</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+
+    #inicio {
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      background: radial-gradient(ellipse at center, #1c1c1c 0%, #000000 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 3s ease, visibility 8s ease;
+      z-index: 10;
+    }
+
+    #inicio p {
+      font-size: 1.6rem;
+      margin: 20px;
+      text-align: center;
+      max-width: 80%;
+    }
+    
+
+    #btnSorpresa {
+      background: #ff4081;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #btnSorpresa:hover {
+      background: #f50057;
+    }
+
+    #floresContainer {
+      display: none;
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(to top, #000000, #320b3a, #e36d4c);
+      overflow: hidden;
+    }
+
+    .tulipan {
+      position: absolute;
+      bottom: 0;
+      width: 40px;
+      height: 80px;
+      animation: crecerTulipan 4s ease-out forwards;
+    }
+
+    @keyframes crecerTulipan {
+      0% {
+        transform: scale(0.2) translateY(0);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) translateY(-100px);
+        opacity: 1;
+      }
+    }
+
+    .sol {
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, #ff8a00, #ff3d00);
+      border-radius: 50%;
+      z-index: 1;
+      box-shadow: 0 0 60px #ff6f00;
+      animation: bajarSol 10s ease-out forwards;
+    }
+
+    @keyframes bajarSol {
+      from {
+        bottom: 100px;
+        opacity: 1;
+      }
+      to{
+        bottom: 20px;
+        opacity: 1;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Pantalla inicial -->
+<div id="inicio">
+  <p>En cada pétalo, en cada color… hay un pedacito de lo que siento por ti.</p>
+  <button id="btnSorpresa">Sorpresa</button>
+</div>
+
+<!-- Pantalla de flores -->
+<div id="floresContainer">
+  <div class="sol"></div>
+</div>
+
+<audio id="musica" loop>
+  <source src="maye - Tú [Letra].mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const btn = document.getElementById("btnSorpresa");
+  const inicio = document.getElementById("inicio");
+  const contenedor = document.getElementById("floresContainer");
+  const musica = document.getElementById("musica");
+
+  btn.addEventListener("click", () => {
+    inicio.style.opacity = 0;
+    inicio.style.visibility = "hidden"; 
+    setTimeout(() => {
+      contenedor.style.display = "block";
+      musica.play();
+      generarTulipanes();
+    }, 4000);
+  });
+
+  function generarTulipanes() {
+setInterval(() => {
+  for (let i = 0; i < 11; i++) {  // Generar 3 tulipanes a la vez
+    const tulipan = document.createElement("div");
+    tulipan.classList.add("tulipan");
+    tulipan.style.left = Math.random() * 100 + "vw";
+    tulipan.innerHTML = `
+      <svg viewBox="0 0 64 64" width="40" height="80">
+        <g transform="translate(0, 5)">
+          <path d="M32 10 C30 4, 28 2, 26 10 C24 4, 22 2, 20 10 C20 4, 16 4, 16 16 C16 28, 32 40, 32 40 C32 40, 48 28, 48 16 C48 4, 44 4, 44 10 C42 2, 40 4, 38 10 C36 2, 34 4, 32 10 Z" fill="#ff69b4"/>
+          <rect x="30" y="40" width="4" height="24" fill="#4caf50"/>
+        </g>
+      </svg>
+    `;
+    contenedor.appendChild(tulipan);
+    setTimeout(() => tulipan.remove(), 4000);
+  }
+}, 250); // cada 400 ms, 3 tulipanes 🌷🌷🌷
+  }
+</script>
+
+</body>
+</html>
