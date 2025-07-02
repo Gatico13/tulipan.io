@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flores para Ti</title>
   <style>
     * {
@@ -37,6 +38,49 @@
       max-width: 80%;
     }
     
+    @media only screen and (max-width: 600px) {
+  #inicio p {
+    font-size: 1.2rem;
+    padding: 0 20px;
+  }
+
+  #btnSorpresa {
+    font-size: 1rem;
+    padding: 12px 25px;
+  }
+
+  .tulipan {
+    width: 25px;
+    height: 60px;
+    animation: crecerTulipan 3.5s ease-out forwards;
+  }
+
+  .sol {
+    width: 80px;
+    height: 80px;
+    box-shadow: 0 0 40px #ff6f00;
+  }
+
+  .nube {
+    width: 120px;
+    height: 40px;
+  }
+
+  .nube::before {
+    width: 60px;
+    height: 60px;
+    top: -15px;
+    left: 5px;
+  }
+
+  .nube::after {
+    width: 80px;
+    height: 80px;
+    top: -20px;
+    left: 50px;
+  }
+}
+
 
     #btnSorpresa {
       background: #ff4081;
