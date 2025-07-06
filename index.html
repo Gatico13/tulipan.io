@@ -37,12 +37,6 @@
       text-align: center;
       max-width: 80%;
     }
-    
-    @media only screen and (max-width: 600px) {
-  #inicio p {
-    font-size: 1.2rem;
-    padding: 0 20px;
-  }
 
   #btnSorpresa {
     font-size: 1rem;
@@ -61,26 +55,44 @@
     box-shadow: 0 0 40px #ff6f00;
   }
 
-  .nube {
-    width: 120px;
-    height: 40px;
-  }
-
-  .nube::before {
-    width: 60px;
-    height: 60px;
-    top: -15px;
-    left: 5px;
-  }
-
-  .nube::after {
-    width: 80px;
-    height: 80px;
-    top: -20px;
-    left: 50px;
-  }
+#nocheEstrellada {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(#0a0a23, #000);
+  z-index: 1;
+  animation: aparecerNoche 4s ease forwards;
 }
 
+@keyframes aparecerNoche {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.estrella {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: parpadear 2s infinite ease-in-out;
+}
+
+@keyframes parpadear {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+    @media only screen and (max-width: 600px) {
+  #inicio p {
+    font-size: 1.2rem;
+    padding: 0 20px;
+  }
+}
 
     #btnSorpresa {
       background: #ff4081;
@@ -127,42 +139,64 @@
 
     .sol {
       position: absolute;
-      bottom: 100px;
+      bottom: 350px;
       left: 50%;
       transform: translateX(-50%);
       width: 120px;
       height: 120px;
       background: radial-gradient(circle, #ff8a00, #ff3d00);
       border-radius: 50%;
-      z-index: 1;
+      z-index: 0;
       box-shadow: 0 0 60px #ff6f00;
-      animation: bajarSol 10s ease-out forwards;
+      animation: bajarSol 60s ease-out forwards;
     }
 
     @keyframes bajarSol {
-      from {
-        bottom: 100px;
-        opacity: 1;
-      }
-      to{
-        bottom: 20px;
-        opacity: 1;
-      }
-    }
+  0% {
+    bottom: 350px;
+    opacity: 1;
+  }
+  90% {
+    bottom: -120px;
+    opacity: 1;
+  }
+  100% {
+    bottom: -120px;
+    opacity: 0;
+  }
+}
 
-    .texto-sol {
+.texto-curvo {
   position: absolute;
-  bottom: 390px; /* Ajustado para estar encima del sol */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #fff8e1;
-  text-shadow: 0 0 10px #fff176, 0 0 20px #fff59d;
-  animation: brillar 3s ease-in-out infinite;
+  top: 80px; /* más abajo, justo sobre el sol */
+  left: 0;
+  width: 100%;
+  height: 100px;
   z-index: 3;
-  text-align: center;
-  white-space: nowrap;
+  pointer-events: none;
+  animation: brillar 3s ease-in-out infinite;
+  text-shadow: 0 0 10px #fff176, 0 0 20px #fff59d;
+}
+
+@keyframes brillar {
+  0%, 100% {
+    text-shadow: 0 0 10px #fff176, 0 0 20px #fff59d;
+    opacity: 1;
+  }
+  50% {
+    text-shadow: 0 0 15px #fff9c4, 0 0 30px #fffde7;
+    opacity: 0.8;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .texto-curvo {
+    top: 90px;
+  }
+
+  .texto-curvo text {
+    font-size: 36px;
+  }
 }
 
 @keyframes brillar {
@@ -188,12 +222,21 @@
 
 <!-- Pantalla de flores -->
 <div id="floresContainer">
-  <div class="texto-sol">Felice Retorno al sole, sole mio</div>
+  <svg class="texto-curvo" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <path id="caminoTexto" d="M100,150 Q600,20 1100,150" />
+  </defs>
+  <text fill="#fff8e1" font-size="50" font-weight="bold">
+    <textPath xlink:href="#caminoTexto" startOffset="50%" text-anchor="middle">
+      Felice ritorno al sole, sole mio.
+    </textPath>
+  </text>
+</svg>
   <div class="sol"></div>
 </div>
 
 <audio id="musica" loop>
-  <source src="maye - Tú [Letra].mp3" type="audio/mpeg">
+  <source src=".mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -231,7 +274,30 @@ setInterval(() => {
   }
 }, 250); // cada 400 ms, 3 tulipanes 🌷🌷🌷
   }
+
+  setTimeout(() => {
+  document.querySelector(".sol").style.display = "none";
+  document.querySelector(".texto-curvo text").setAttribute("fill", "#ffffff");
+  const noche = document.getElementById("nocheEstrellada");
+  noche.style.display = "block";
+  generarEstrellas();
+}, 60000); // después de que el sol desaparece (15s + 1s margen)
+
+function generarEstrellas() {
+  const noche = document.getElementById("nocheEstrellada");
+  for (let i = 0; i < 100; i++) {
+    const estrella = document.createElement("div");
+    estrella.className = "estrella";
+    estrella.style.top = Math.random() * 100 + "vh";
+    estrella.style.left = Math.random() * 100 + "vw";
+    estrella.style.animationDelay = (Math.random() * 5) + "s";
+    noche.appendChild(estrella);
+  }
+}
+
 </script>
+
+<div id="nocheEstrellada"></div>
 
 </body>
 </html>
